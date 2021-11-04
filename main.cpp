@@ -16,9 +16,10 @@ void working_WithFile() {
             getline(fin, data);
             bigInt n2(data);
             if (cal == "+") n1 = n1.add(n2);
-            else if (cal == "-") n1 = n1.subtract(n2);
+            else if (cal == "-") n1 = n1.subtract_Bin(n2);
             else if (cal == "*") n1 = n1.multiply(n2);
-            else if (cal == "%") n1 = n1.mod(n2);
+            else if (cal == "%") 
+                n1 = n1.mod(n2);
             if (n1.getSign() == 0) cal = "-";
             else cal = "";
             fout << cal << n1.getString() << endl;
