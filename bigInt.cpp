@@ -79,15 +79,15 @@ bool bigInt::greater_ValueThan(bigInt b) {
     }
 }
 
-string bigInt::getString() {
+string bigInt::get_Hexa() {
     return this->numbers;
 }
 
 bigInt bigInt::add(bigInt b){
    
     bigInt result;
-    string number1 = this->getString();
-    string number2 = b.getString();
+    string number1 = this->get_Hexa();
+    string number2 = b.get_Hexa();
     int carry = 0;
     int res;
     int value;
@@ -217,7 +217,7 @@ bigInt bigInt::add(bigInt b){
 }
 
 bigInt bigInt::subtract(bigInt b) {
-    bigInt temp(b.getString());
+    bigInt temp(b.get_Hexa());
     if (b.getSign() == 0) temp.setSign(1);
     else temp.setSign(0);
     return this->add(temp);

@@ -27,7 +27,7 @@ class bigInt{
         bool greater_ValueThan(bigInt);
 
         void set_Bin(string);
-        string getString();
+        string get_Hexa();
         
         bigInt add(bigInt);
         bigInt subtract(bigInt);

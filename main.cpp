@@ -22,7 +22,7 @@ void working_WithFile() {
                 n1 = n1.mod(n2);
             if (n1.getSign() == 0) cal = "-";
             else cal = "";
-            fout << cal << n1.getString() << endl;
+            fout << cal << n1.get_Hexa() << endl;
         }
         cout << "Successfully!" << endl;
     }
