@@ -414,6 +414,7 @@ bigInt bigInt::mod(bigInt b) {
         
      } while (index < s1.length());
     t.numbers = t.to_Hex(t.get_Bin());
+    t.sign = this->sign;
     return t;
 }
 
