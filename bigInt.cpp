@@ -58,13 +58,15 @@ void bigInt::setSign(int s) {
 }
 
 void bigInt::setNumb(string n) {
-    this->numbers = n;
+    this->set_Bin(this->to_Bin(n));
 }
 
 void bigInt::set_Bin(string b) {
     while (b[0] == '0') b = b.substr(1);
     this->bin = b;
+    this->numbers = this->to_Hex(b);
 }
+
 bool bigInt::greater_ValueThan(bigInt b) {
     if (this->bin.length() > b.bin.length()) return true;
     else if (this->numbers.length() < b.numbers.length()) return false;
@@ -84,147 +86,47 @@ string bigInt::get_Hexa() {
 }
 
 bigInt bigInt::add(bigInt b){
-   
-    bigInt result;
-    string number1 = this->get_Hexa();
-    string number2 = b.get_Hexa();
-    int carry = 0;
-    int res;
-    int value;
-    if (this->sign == b.sign) {
-        result.sign = b.sign;
-        int index1, index2;
-        for (index1 = number1.length() - 1, index2 = number2.length() - 1; index1 > -1 || index2 > -1;) {
-            value = 0;
-            //chuyen ve so nguyen
-            if (index1 > -1) {
-                if (64 < number1[index1] && number1[index1] < 71)
-                    value += number1[index1] - 55;
-                else if (47 < number1[index1] && number1[index1] < 58)
-                    value += number1[index1] - 48;
-            }
-            if (index2 > -1) {
-                if (64 < number2[index2] && number2[index2] < 71)
-                    value += number2[index2] - 55;
-                else if (47 < number2[index2] && number2[index2] < 58)
-                    value += number2[index2] - 48;
-            }
-            //tinh
-            value += carry;
-            if (value > 15) {
-                value -= 16;
-                carry = 1;
-            }
-            else
-                carry = 0;
-            if (value > 9)
-                result.numbers = char(value + 55) + result.numbers;
-            else
-                result.numbers = char(value + 48) + result.numbers;
+    if (this->getSign() != b.sign) return this->subtract_Bin(b);
 
-            if (index1 > -1) index1--;
-            if (index2 > -1) index2--;
+    string carry = "0";
+    string s1, s2, res;
+    s1 = this->get_Bin();
+    s2 = b.bin;
+    while (s1.length() < s2.length()) s1 = '0' + s1;
+    while (s1.length() > s2.length()) s2 = '0' + s2;
+    int i = s1.length() - 1;
+    res = "";
+    while (i > -1) {
+        if (carry == "1") {
+            if (s2[i] == '0') {
+                s2[i] = '1';
+                carry = "0";
+            }
+            else s2[i] = '0';
         }
+        if (s1[i] == s2[i]) {
+            if (s1[i] == '1') carry = "1";
+            res = '0' + res;
+        }
+        else res = '1' + res;
+        i--;
     }
-
-    else {
-        //bool greater = this->greaterValue(b);
-        if (this->sign == 1 && b.sign == 0) {
-            result.sign = this->sign;
-            int index1, index2;
-            for (index1 = number1.length() - 1, index2 = number2.length() - 1; index1 > -1 || index2 > -1;) {
-                value = 0;
-                //chuyen ve so nguyen
-                if (index1 > -1) {
-                    if (64 < number1[index1] && number1[index1] < 71)
-                        value += number1[index1] - 55;
-                    else if (47 < number1[index1] && number1[index1] < 58)
-                        value += number1[index1] - 48;
-                }
-                if (index2 > -1) {
-                    if (64 < number2[index2] && number2[index2] < 71)
-                        value -= number2[index2] - 55;
-                    else if (47 < number2[index2] && number2[index2] < 58)
-                        value -= number2[index2] - 48;
-                }
-                //tinh
-                value += carry;
-                if (value > 15) {
-                    value -= 16;
-                    carry = 1;
-                }
-                else if (-1 < value && value < 16) {
-                    carry = 0;
-                }
-                else {
-                    carry = -1;
-                    value += 16;
-                }
-                if (value > 9)
-                    result.numbers = char(value + 55) + result.numbers;
-                else
-                    result.numbers = char(value + 48) + result.numbers;
-
-                if (index1 > -1) index1--;
-                if (index2 > -1) index2--;
-            }
-        }
-        else {
-            result.sign = b.sign;
-            int index1, index2;
-            for (index1 = number1.length() - 1, index2 = number2.length() - 1; index1 > -1 || index2 > -1;) {
-                value = 0;
-                //chuyen ve so nguyen
-                if (index1 > -1) {
-                    if (64 < number1[index1] && number1[index1] < 71)
-                        value -= number1[index1] - 55;
-                    else if (47 < number1[index1] && number1[index1] < 58)
-                        value -= number1[index1] - 48;
-                }
-                if (index2 > -1) {
-                    if (64 < number2[index2] && number2[index2] < 71)
-                        value += number2[index2] - 55;
-                    else if (47 < number2[index2] && number2[index2] < 58)
-                        value += number2[index2] - 48;
-                }
-                //tinh
-                value += carry;
-                if (value > 15) {
-                    value -= 16;
-                    carry = 1;
-                }
-                else if (-1 < value && value < 10) {
-                    carry = 0;
-                }
-                else {
-                    carry = -1;
-                    value = abs(value);
-                }
-                if (value > 9)
-                    result.numbers = char(value + 55) + result.numbers;
-                else
-                    result.numbers = char(value + 48) + result.numbers;
-
-                if (index1 > -1) index1--;
-                if (index2 > -1) index2--;
-            }            
-        }
-    }
-    if (carry == -1) result.sign = 0;
-    else if (carry == 1) result.numbers = char(carry + 48) + result.numbers;
-    if (result.numbers[0] == '0') result.numbers = result.numbers.substr(1);
+    if (carry == "1") res = '1' + res;
+    bigInt result(this->to_Hex(res));
+    if (this->getSign() == 1) result.setSign(1);
+    else result.setSign(0);
     return result;
 }
 
-bigInt bigInt::subtract(bigInt b) {
-    bigInt temp(b.get_Hexa());
-    if (b.getSign() == 0) temp.setSign(1);
-    else temp.setSign(0);
-    return this->add(temp);
-}
+//bigInt bigInt::subtract(bigInt b) {
+//    bigInt temp(b.get_Hexa());
+//    if (b.getSign() == 0) temp.setSign(1);
+//    else temp.setSign(0);
+//    return this->add(temp);
+//}
 
 bigInt bigInt::multiply(bigInt b) {
-
+    if (b.bin == "0000" || this->bin == "0000") return bigInt("0");
     bigInt result;
     
     string n1 = this->numbers;
@@ -252,13 +154,14 @@ bigInt bigInt::multiply(bigInt b) {
             if (v / 16 > 9) t = char(v / 16 + 55) + t;
             else t = char(v / 16 + 48) + t;
             t = t + x10;
-            temp.numbers = t;
+            temp.setNumb(t);
             result = result.add(temp);
             x10 = x10 + "0";
         }
     }
     if (this->sign == b.sign) result.sign = 1;
     else result.sign = 0;
+    result.bin = result.to_Bin(result.get_Hexa());
     return result;
 }
 
@@ -351,50 +254,60 @@ string bigInt::to_Hex(string bin) {
 }
 
 bigInt bigInt::subtract_Bin(bigInt b) {
-    int carry = 0;
-    string s1 = this->bin;
-    string s2 = b.bin;
-    while (s1.length() > s2.length()) s2 = '0' + s2;
-    while (s1.length() < s2.length()) s1 = '0' + s1;
-    string res = "";
-    for (int i = this->bin.length() - 1; i > -1 ; i--) {
-        if (s1[i] == s2[i]) {
-            if (carry == 0) res = '0' + res;
-            else res ='1' + res;
-        }
-        else if (s1[i] == '1' && s2[i] == '0') {
-            if (carry == 0) res = '1' + res;
-            else {
-                res = '0' + res;
-                carry = 0;
-            }
-        }
-        else {
-            if (carry == 0) {
-                res = '1' + res;
-                carry = 1;
-            }
-            else 
-                res = '0' + res;           
-        }
-        
+    
+    if (this->sign != b.sign) {
+        bigInt revB(b.get_Hexa());
+        if (b.sign == 0) revB.setSign(1);
+        else revB.setSign(0);
+        return this->add(revB);
     }
+    
     bigInt result;
-    result.set_Bin(res);
-    result.numbers = result.to_Hex(res);
+    string carry = "0";
+    string s1, s2;
     if (this->greater_ValueThan(b)) {
+        s1 = this->bin;
+        s2 = b.bin;
         if (this->sign == 1) result.setSign(1);
         else result.setSign(0);
     }
     else {
+        s1 = b.bin;
+        s2 = this->bin;
         if (b.sign == 0) result.setSign(1);
         else result.setSign(0);
     }
+
+    while (s1.length() > s2.length()) s2 = '0' + s2;
+    while (s1.length() < s2.length()) s1 = '0' + s1;
+    string res = "";
+    for (int i = s1.length() - 1; i > -1 ; i--) {
+        if (s1[i] == s2[i]) res = carry + res;
+        else if (s1[i] == '1' && s2[i] == '0') {
+            if (carry == "0") res = '1' + res;
+            else {
+                res = '0' + res;
+                carry = "0";
+            }
+        }
+        else {
+            if (carry == "0") {
+                carry = "1";
+                res = '1' + res;
+            }
+            else 
+                res = '0' + res;
+        }
+        
+    }
+    result.set_Bin(res);
     return result;
 }
 
 bigInt bigInt::mod(bigInt b) {
+    if (b.bin == "1") return bigInt("0");
     if (!this->greater_ValueThan(b)) return *this;
+    else if (this->equal(b)) return bigInt("0");
 
     string s1 = this->get_Bin();
     string s2 = b.get_Bin();
@@ -409,6 +322,8 @@ bigInt bigInt::mod(bigInt b) {
         }
         if (!b.greater_ValueThan(t))
             t = t.subtract_Bin(b);
+        else if (b.equal(t))
+            return bigInt("0");
         else 
             break;
         
@@ -416,6 +331,110 @@ bigInt bigInt::mod(bigInt b) {
     t.numbers = t.to_Hex(t.get_Bin());
     t.sign = this->sign;
     return t;
+}
+
+bigInt bigInt::divide(bigInt b) {
+    if (!this->greater_ValueThan(b)) return bigInt("0");
+
+    string s1 = this->get_Bin();
+    string s2 = b.get_Bin();
+    string temp = s1.substr(0, s2.length());
+    int index = s2.length();
+    bigInt t(this->to_Hex(temp));
+    string res = "";
+    do {
+        //t < b
+        while (index < s1.length() && b.greater_ValueThan(t)) {
+            t.bin = t.get_Bin() + s1[index++];
+            t.numbers = t.to_Hex(t.bin);
+            res.push_back('0');
+        }
+        if (!b.greater_ValueThan(t)) {
+            res.push_back('1');
+            t = t.subtract_Bin(b);
+            t.bin = t.get_Bin() + s1[index++];
+            t.numbers = t.to_Hex(t.bin);
+            if (index == s1.length()) {
+                if (b.greater_ValueThan(t)) res += '0';
+                else res += '1';
+            }
+            t.numbers = t.to_Hex(t.bin);
+        }
+        else
+            break;
+
+    } while (index < s1.length());
+    bigInt result(t.to_Hex(res));
+    return result;
+}
+
+bool bigInt::equal(bigInt b) {
+    string s1 = this->get_Bin();
+    string s2 = b.get_Bin();
+    if (s1.length() != s2.length()) return false;
+    for (int i = 0; i < s1.length(); i++)
+        if (s1[i] != s2[i])
+            return false;
+    return true;
+}
+
+vector<bigInt> bigInt::expand_Euclid(bigInt a, bigInt b) {
+    vector<bigInt> r, x, y, q, res;
+
+    if (a.greater_ValueThan(b)) {
+        r.push_back(a);
+        r.push_back(b);
+    }
+    else {
+        r.push_back(b);
+        r.push_back(a);
+    }
+    bigInt zero("0");
+    bigInt one("1");
+    bigInt tempa(a);
+    bigInt tempb(b);
+    x = { zero, one };
+    y = { one, zero };
+    q = { zero, zero };
+    int i = 2;
+    while (!r[r.size() - 1].equal(zero)) {
+        a = r[i - 2];
+        b = r[i - 1];
+        r.push_back(a.mod(b));
+        q.push_back(a.divide(b));
+        bigInt qxi = q[i].multiply(x[i - 1]);
+        x.push_back(x[i - 2].subtract_Bin(qxi));
+        bigInt qyi = q[i].multiply(y[i - 1]);
+        y.push_back(y[i - 2].subtract_Bin(qyi));
+        i++;
+    }
+
+    bigInt v1 = x[x.size() - 2].multiply(tempa);
+    bigInt v2 = y[y.size() - 2].multiply(tempb);
+    v1 = v1.add(v2);
+    if (v1.equal(b)) 
+        res = { b, x[x.size() - 2], y[y.size() - 2] };
+    else
+        res = { b, y[y.size() - 2], x[x.size() - 2] };
+    return res;
+}
+
+
+bigInt bigInt::Montgomery(bigInt a, bigInt b, bigInt R, bigInt N) {
+    cout << "\nMontgomery" << endl;
+    a = a.multiply(R);
+    a = a.mod(N);
+    b = b.multiply(R);
+    b = b.mod(N);
+    vector<bigInt> f_R1_N1 = this->expand_Euclid(R, N);
+
+    bigInt c_ = a.multiply(b);
+    c_ = c_.multiply(f_R1_N1[1]);
+    c_ = c_.mod(N);
+    bigInt c = c_.multiply(f_R1_N1[1]);
+    c = c.mod(N);
+   
+    return c;
 }
 
 

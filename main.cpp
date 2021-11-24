@@ -1,4 +1,5 @@
 #include "bigInt.h"
+#include <time.h>
 using namespace std;
 
 void working_WithFile() {
@@ -36,6 +37,12 @@ void working_WithFile() {
 
 
 int main() {
-    working_WithFile();
+    //working_WithFile();
+    bigInt a("44");
+    bigInt b("39");
+    bigInt R("80");
+    bigInt N("6D");
+    bigInt c = a.Montgomery(a, b, R, N);
+    c.output();
     return 0;
 }
