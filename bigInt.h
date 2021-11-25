@@ -39,6 +39,8 @@ class bigInt{
         bigInt mod(bigInt);
         
         vector<bigInt> expand_Euclid(bigInt, bigInt);
+        bigInt quick_Pow_Mod_N(string, bigInt);
+        bool miller_Rabin();
 
         bigInt Montgomery(bigInt, bigInt, bigInt, bigInt);
         ~bigInt();

@@ -37,12 +37,21 @@ void working_WithFile() {
 
 
 int main() {
-    //working_WithFile();
-    bigInt a("44");
-    bigInt b("39");
+    // Week 1
+    // working_WithFile();
+    // Week 4
+    /*bigInt a("7");
+    bigInt b("10");
     bigInt R("80");
     bigInt N("6D");
     bigInt c = a.Montgomery(a, b, R, N);
-    c.output();
+    c.output();*/
+    // Week 5
+    /*bigInt d("F");
+    bigInt n("33");
+    bigInt e = d.quick_Pow_Mod_N("100111", n);
+    e.output();*/
+    bigInt f("33");
+    cout << f.miller_Rabin();
     return 0;
 }

@@ -1,9 +1,1 @@
-﻿  bigInt.cpp
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(97,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(138,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(143,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(145,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(284,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(315,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bleu\Desktop\Project\C++\bigInt\bigInt.cpp(342,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  bigInt.vcxproj -> C:\Users\Bleu\Desktop\Project\C++\bigInt\x64\Debug\bigInt.exe
+﻿  bigInt.vcxproj -> C:\Users\Bleu\Desktop\Project\C++\bigInt\x64\Debug\bigInt.exe

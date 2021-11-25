@@ -437,6 +437,48 @@ bigInt bigInt::Montgomery(bigInt a, bigInt b, bigInt R, bigInt N) {
     return c;
 }
 
+//k la chuoi nhi phan
+bigInt bigInt::quick_Pow_Mod_N(string k, bigInt N) {
+    if (k.length() == 1) return this->mod(N);
+    bigInt temp = this->quick_Pow_Mod_N(k.substr(0, k.length() - 1), N);
+    //chan
+    if (k[k.length() - 1] == '0') return temp.multiply(temp).mod(N);
+    //le
+    else return temp.multiply(temp).mod(N).multiply(*this).mod(N);     
+}
 
+//miller rabin ==> n is prime ?
+bool bigInt::miller_Rabin() {
+    /*
+        1. find n-1 = 2^k . m
+        2. choose 1 < a < n-1
+        3. compute b_0 = a^m (mod n), b_i = (b_i-1)^2 (mod n)
+    */
+    // n - 1 = 2^k . m
+    bigInt n_1 = this->subtract_Bin(bigInt("1"));
+
+    // string n - 1
+    string sn_1 = n_1.get_Bin();
+
+    //find k & m
+    long k = 0;
+    while (sn_1[sn_1.length() - 1] == '0') {
+        k++;
+        sn_1 = sn_1.substr(0, sn_1.length() - 1);
+    }
+    if (k == 0) return false; //so chan
+    bigInt m;
+    m.set_Bin(sn_1);
+
+    bigInt a("2");// = n.subtract_Bin(m);
+    bigInt b0 = a.quick_Pow_Mod_N(m.get_Bin(), *this);
+    if (b0.get_Bin() == "1" || b0.get_Bin() == n_1.get_Bin()) return true;
+
+    while (k-- > 0) {
+        b0 = b0.multiply(b0).mod(*this);
+        if (b0.get_Bin() == "1" || b0.get_Bin() == n_1.get_Bin()) return true;
+    }
+    return false;
+}
 
 
